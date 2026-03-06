@@ -1,4 +1,4 @@
-# @hidooor/mcp-server
+# @pepo_fun/hidooor-mcp
 
 Private token swaps on Solana, directly from your AI assistant.
 
@@ -7,7 +7,7 @@ Private token swaps on Solana, directly from your AI assistant.
 ## Quick Start
 
 ```bash
-claude mcp add hidooor npx @hidooor/mcp-server@latest
+claude mcp add hidooor npx @pepo_fun/hidooor-mcp@latest
 ```
 
 Or add manually to your MCP client config:
@@ -17,7 +17,7 @@ Or add manually to your MCP client config:
   "mcpServers": {
     "hidooor": {
       "command": "npx",
-      "args": ["@hidooor/mcp-server@latest"],
+      "args": ["@pepo_fun/hidooor-mcp@latest"],
       "env": {
         "HIDOOOR_API_URL": "https://api.hidooor.com"
       }
@@ -91,7 +91,7 @@ Your Wallet ──SOL──> Derived Address ──> Privacy Pool ──> Servic
   "mcpServers": {
     "hidooor": {
       "command": "npx",
-      "args": ["@hidooor/mcp-server@latest"],
+      "args": ["@pepo_fun/hidooor-mcp@latest"],
       "env": {
         "HIDOOOR_API_URL": "https://api.hidooor.com",
         "SOLANA_PRIVATE_KEY": "your_base58_private_key",
@@ -114,7 +114,7 @@ Your Wallet ──SOL──> Derived Address ──> Privacy Pool ──> Servic
 
 ## Works With
 
-- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) — `claude mcp add hidooor npx @hidooor/mcp-server@latest`
+- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) — `claude mcp add hidooor npx @pepo_fun/hidooor-mcp@latest`
 - [Claude Desktop](https://claude.ai/download) — add to `claude_desktop_config.json`
 - [Cursor](https://cursor.com) — add to MCP settings
 - Any MCP-compatible AI assistant

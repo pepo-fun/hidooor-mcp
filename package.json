@@ -1,5 +1,5 @@
 {
-  "name": "@hidooor/mcp-server",
+  "name": "@pepo_fun/hidooor-mcp",
   "version": "1.0.0",
   "description": "Hidooor MCP server for private swaps on Solana",
   "type": "module",
