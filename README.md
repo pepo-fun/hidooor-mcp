@@ -2,7 +2,7 @@
 
 Private token swaps on Solana, directly from your AI assistant.
 
-[Hidooor](https://hidooor.com) breaks the on-chain link between your input SOL and output tokens using a privacy pool, so swaps can't be traced back to your wallet.
+[Hidooor](https://hidooor.pepo.fun) breaks the on-chain link between your input SOL and output tokens using a privacy pool, so swaps can't be traced back to your wallet.
 
 ## Quick Start
 
@@ -131,7 +131,7 @@ npm test
 
 ## Resources
 
-- [Hidooor](https://hidooor.com)
+- [Hidooor](https://hidooor.pepo.fun)
 - [Model Context Protocol](https://modelcontextprotocol.io)
 - [MCP Specification](https://spec.modelcontextprotocol.io)
 
