@@ -19,7 +19,7 @@ Or add manually to your MCP client config:
       "command": "npx",
       "args": ["@pepo_fun/hidooor-mcp@latest"],
       "env": {
-        "HIDOOOR_API_URL": "https://api.hidooor.com"
+        "HIDOOOR_API_URL": "https://hidooor-production.up.railway.app"
       }
     }
   }
@@ -76,7 +76,7 @@ Your Wallet ──SOL──> Derived Address ──> Privacy Pool ──> Servic
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `HIDOOOR_API_URL` | `https://api.hidooor.com` | Backend API URL |
+| `HIDOOOR_API_URL` | `https://hidooor-production.up.railway.app` | Backend API URL |
 | `SOLANA_RPC_URL` | `https://api.mainnet-beta.solana.com` | Solana RPC endpoint |
 | `SOLANA_PRIVATE_KEY` | — | Base58 private key (enables FULL mode) |
 | `MCP_MAX_SWAP_SOL` | `1` | Max SOL per swap (safety limit) |
@@ -93,7 +93,7 @@ Your Wallet ──SOL──> Derived Address ──> Privacy Pool ──> Servic
       "command": "npx",
       "args": ["@pepo_fun/hidooor-mcp@latest"],
       "env": {
-        "HIDOOOR_API_URL": "https://api.hidooor.com",
+        "HIDOOOR_API_URL": "https://hidooor-production.up.railway.app",
         "SOLANA_PRIVATE_KEY": "your_base58_private_key",
         "MCP_MAX_SWAP_SOL": "2",
         "MCP_REQUIRE_CONFIRM": "true"

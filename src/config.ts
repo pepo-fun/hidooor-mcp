@@ -34,7 +34,7 @@ const loadKeypair = (encoded: string | undefined): Keypair | undefined => {
 };
 
 export const loadConfig = (env: NodeJS.ProcessEnv = process.env): McpConfig => {
-  const apiUrl = env.HIDOOOR_API_URL?.trim() || 'https://api.hidooor.com';
+  const apiUrl = env.HIDOOOR_API_URL?.trim() || 'https://hidooor-production.up.railway.app';
   const solanaRpcUrl = env.SOLANA_RPC_URL?.trim() || 'https://api.mainnet-beta.solana.com';
 
   const maxSwapSol = Number(env.MCP_MAX_SWAP_SOL ?? '1');

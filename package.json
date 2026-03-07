@@ -1,6 +1,6 @@
 {
   "name": "@pepo_fun/hidooor-mcp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Hidooor MCP server for private swaps on Solana",
   "type": "module",
   "main": "dist/index.js",
