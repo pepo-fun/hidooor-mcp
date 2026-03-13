@@ -7,7 +7,8 @@ export type ErrorCode =
   | 'SIGNATURE_FAILED'
   | 'PROCESS_FAILED'
   | 'TIMEOUT'
-  | 'NOT_AVAILABLE_IN_READ_ONLY';
+  | 'NOT_AVAILABLE_IN_READ_ONLY'
+  | 'INVALID_DERIVED_ADDRESS';
 
 export interface ToolSuccess<T = unknown> {
   success: true;

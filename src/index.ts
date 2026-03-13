@@ -10,10 +10,11 @@ const main = async (): Promise<void> => {
   const transport = new StdioServerTransport();
 
   await server.connect(transport);
+  const safeRpcUrl = config.solanaRpcUrl.split('?')[0];
   logInfo('mcp_server_started', {
     mode: config.mode,
     apiUrl: config.apiUrl,
-    solanaRpcUrl: config.solanaRpcUrl,
+    solanaRpcUrl: safeRpcUrl,
     maxSwapSol: config.maxSwapSol,
     requireConfirm: config.requireConfirm,
   });

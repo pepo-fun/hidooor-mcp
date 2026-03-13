@@ -2,5 +2,12 @@ node_modules/
 dist/
 coverage/
 .DS_Store
-.env
+.env*
+!.env.example
 *.log
+*.pem
+*.key
+*.tsbuildinfo
+.idea/
+.vscode/
+*.tgz

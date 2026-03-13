@@ -36,7 +36,9 @@ export class BackendClient {
         }
 
         if (!response.ok) {
-          const error = new Error((payload as { error?: string; message?: string } | null)?.error || `HTTP ${response.status}`);
+          const rawMessage = (payload as { error?: string; message?: string } | null)?.error || `HTTP ${response.status}`;
+          const message = response.status >= 500 ? `Backend error (HTTP ${response.status})` : rawMessage;
+          const error = new Error(message);
           (error as Error & { status?: number; payload?: unknown }).status = response.status;
           (error as Error & { status?: number; payload?: unknown }).payload = payload;
           throw error;

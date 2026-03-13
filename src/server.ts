@@ -4,11 +4,11 @@ import { BackendClient } from './backend-client.js';
 import { McpConfig } from './config.js';
 import { executeSwapFlow } from './flow.js';
 import { logError, logInfo } from './logger.js';
+import { RateLimiter } from './rate-limiter.js';
 import { SolanaSigner } from './solana-signer.js';
 import { ToolResult } from './types.js';
 import { createTraceId, formatToolText } from './utils.js';
-
-const BASE58_ADDRESS_REGEX = /^[1-9A-HJ-NP-Za-km-z]{32,44}$/;
+import { BASE58_ADDRESS_REGEX, MIN_SWAP_SOL } from './validation.js';
 
 const toContent = (result: ToolResult) => ({
   content: [{ type: 'text' as const, text: formatToolText(result) }],
@@ -20,9 +20,11 @@ export const createMcpServer = (config: McpConfig): McpServer => {
     ? new SolanaSigner(config.solanaRpcUrl, config.keypair, config.txCommitment)
     : undefined;
 
+  const swapLimiter = new RateLimiter(5, 60_000);
+
   const server = new McpServer({
     name: 'hidooor',
-    version: '1.0.0',
+    version: '1.0.1',
   });
 
   server.tool(
@@ -71,7 +73,7 @@ export const createMcpServer = (config: McpConfig): McpServer => {
     'Get private swap quote for SOL to output token.',
     {
       outputMint: z.string().regex(BASE58_ADDRESS_REGEX),
-      amountSol: z.number().positive(),
+      amountSol: z.number().positive().gte(MIN_SWAP_SOL),
     },
     async ({ outputMint, amountSol }) => {
       const traceId = createTraceId();
@@ -165,13 +167,23 @@ export const createMcpServer = (config: McpConfig): McpServer => {
     'Execute private SOL->token swap in FULL mode. Transfers SOL to derived address then starts process.',
     {
       outputMint: z.string().regex(BASE58_ADDRESS_REGEX),
-      amountSol: z.number().positive(),
+      amountSol: z.number().positive().gte(MIN_SWAP_SOL),
       confirm: z.boolean().default(false),
       idempotencyKey: z.string().uuid().optional(),
     },
     async (args) => {
       const traceId = createTraceId();
       logInfo('execute_swap_called', { traceId, mode: config.mode, amountSol: args.amountSol, outputMint: args.outputMint });
+
+      if (!swapLimiter.tryAcquire()) {
+        return toContent({
+          success: false,
+          mode: config.mode,
+          traceId,
+          error: { code: 'BACKEND_RATE_LIMIT' as const, message: 'Local rate limit: max 5 swaps per 60 seconds.' },
+          nextAction: 'Wait and retry.',
+        });
+      }
 
       const result = await executeSwapFlow(config, client, signer, args, traceId);
       return toContent(result);

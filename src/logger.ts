@@ -1,5 +1,7 @@
 const LOG_SENSITIVE = process.env.MCP_LOG_SENSITIVE === 'true';
 
+const ALWAYS_REDACT_KEYS = new Set(['privateKey', 'secretKey']);
+
 const SENSITIVE_KEYS = new Set([
   'wallet',
   'userWallet',
@@ -16,19 +18,19 @@ const SENSITIVE_KEYS = new Set([
   'secretKey',
 ]);
 
-const redactValue = (value: unknown): unknown => {
+const redactValue = (value: unknown, keys: Set<string>): unknown => {
   if (Array.isArray(value)) {
-    return value.map(redactValue);
+    return value.map((v) => redactValue(v, keys));
   }
 
   if (value && typeof value === 'object') {
     const input = value as Record<string, unknown>;
     const output: Record<string, unknown> = {};
     for (const [key, nested] of Object.entries(input)) {
-      if (SENSITIVE_KEYS.has(key)) {
+      if (keys.has(key)) {
         output[key] = '[REDACTED]';
       } else {
-        output[key] = redactValue(nested);
+        output[key] = redactValue(nested, keys);
       }
     }
     return output;
@@ -39,9 +41,9 @@ const redactValue = (value: unknown): unknown => {
 
 const preparePayload = (payload: Record<string, unknown>): Record<string, unknown> => {
   if (LOG_SENSITIVE) {
-    return payload;
+    return redactValue(payload, ALWAYS_REDACT_KEYS) as Record<string, unknown>;
   }
-  return redactValue(payload) as Record<string, unknown>;
+  return redactValue(payload, SENSITIVE_KEYS) as Record<string, unknown>;
 };
 
 export const logInfo = (event: string, payload: Record<string, unknown>): void => {

@@ -4,6 +4,7 @@ import { McpConfig } from './config.js';
 import { logError, logInfo } from './logger.js';
 import { SolanaSigner } from './solana-signer.js';
 import { ToolFailure, ToolResult } from './types.js';
+import { isValidSolanaAddress } from './validation.js';
 
 export interface ExecuteSwapInput {
   outputMint: string;
@@ -91,6 +92,15 @@ export const executeSwapFlow = async (
 
     const quote = await client.getQuote(input.outputMint, lamports);
     const derived = await client.getDerivedAddress(wallet);
+
+    if (!isValidSolanaAddress(derived.derivedAddress)) {
+      return toFailure(
+        traceId,
+        config.mode,
+        'INVALID_DERIVED_ADDRESS',
+        `Backend returned invalid derived address: ${derived.derivedAddress}`
+      );
+    }
 
     logInfo('swap_transfer_start', { traceId, wallet, lamports, derivedAddress: derived.derivedAddress });
     const transferTxId = await signer.transferSol(derived.derivedAddress, lamports);
