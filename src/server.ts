@@ -24,7 +24,7 @@ export const createMcpServer = (config: McpConfig): McpServer => {
 
   const server = new McpServer({
     name: 'hidooor',
-    version: '1.0.1',
+    version: '1.0.2',
   });
 
   server.tool(
